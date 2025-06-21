@@ -553,3 +553,53 @@ a:hover {
     border-radius: 50%;
     object-fit: cover;
 }
+
+/* === CREATE POST TRIGGER & MODAL STYLES === */
+.create-post-trigger {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 12px 15px; /* Giảm padding cho giống Threads */
+}
+.create-post-trigger:hover {
+    background-color: var(--hover-color);
+}
+
+.create-post-modal-content {
+    background-color: var(--card-background-color);
+    color: var(--text-color);
+    border-radius: 12px; /* Bo tròn ít hơn một chút */
+}
+.create-post-modal-content .modal-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 15px;
+}
+.create-post-modal-content .modal-header .modal-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.create-post-modal-content .modal-body {
+    padding: 15px;
+}
+.create-post-modal-content .modal-footer {
+    border-top: 1px solid var(--border-color);
+    padding: 12px 15px;
+    display: flex; /* Căn chỉnh nút Post */
+    justify-content: flex-end;
+}
+.create-post-modal-content .modal-footer button.btn-primary {
+    padding: 8px 16px;
+    font-size: 1rem;
+}
+
+.create-post-modal-textarea {
+    background: transparent !important;
+    border: none !important;
+    color: var(--text-color) !important;
+    resize: none;
+    box-shadow: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    min-height: 80px; /* Điều chỉnh chiều cao textarea */
+    font-size: 1rem; /* Kích thước chữ */
+}

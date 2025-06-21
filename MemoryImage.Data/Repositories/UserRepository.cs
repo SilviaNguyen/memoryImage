@@ -105,6 +105,35 @@ namespace MemoryImage.Data.Repositories
             var user = await _context.Users.FindAsync(id);
             if (user != null)
             {
+                // === BẮT ĐẦU VÙNG DỌN DẸP TOÀN DIỆN ===
+
+                // 1. Dọn dẹp Friendships (đã làm ở bước trước)
+                var friendshipsAsReceiver = await _context.Friendships
+                    .Where(f => f.ReceiverId == id)
+                    .ToListAsync();
+                if (friendshipsAsReceiver.Any())
+                {
+                    _context.Friendships.RemoveRange(friendshipsAsReceiver);
+                }
+
+                // 2. DỌN DẸP LIKES (MỚI)
+                var userLikes = await _context.Likes
+                    .Where(l => l.UserId == id)
+                    .ToListAsync();
+                if (userLikes.Any())
+                {
+                    _context.Likes.RemoveRange(userLikes);
+                }
+
+                // 3. DỌN DẸP COMMENTS (MỚI)
+                var userComments = await _context.Comments
+                    .Where(c => c.UserId == id)
+                    .ToListAsync();
+                if (userComments.Any())
+                {
+                    _context.Comments.RemoveRange(userComments);
+                }
+
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
                 return true;

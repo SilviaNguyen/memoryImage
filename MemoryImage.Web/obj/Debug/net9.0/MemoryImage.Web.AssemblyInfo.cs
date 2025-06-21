@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MemoryImage.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45daa3748540bddc5a139add3f54c23bc3ebfd40")]
 [assembly: System.Reflection.AssemblyProductAttribute("MemoryImage.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MemoryImage.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

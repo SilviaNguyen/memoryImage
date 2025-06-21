@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@using MemoryImage.Models
 @model MemoryImage.Models.ViewModels.UserProfileViewModel
 @{
 ViewData["Title"] = $"{Model.User.FullName}'s Profile";
@@ -27,17 +28,17 @@ var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? 
         }
         else
         {
-        @if (Model.FriendshipStatus == MemoryImage.Models.FriendshipStatus.Accepted)
+        @if (Model.FriendshipStatus == FriendshipStatus.Accepted)
         {
         <button class="btn btn-outline-danger w-100" onclick="removeFriend(@Model.User.Id)">Unfriend</button>
         }
-        else if (Model.FriendshipStatus == MemoryImage.Models.FriendshipStatus.Pending)
+        else if (Model.FriendshipStatus == FriendshipStatus.Pending)
         {
         <span class="btn btn-outline-warning w-100 disabled">Request Sent</span>
         }
         else
         {
-        <button class="btn btn-outline-primary w-100" onclick="sendFriendRequest(@Model.User.Id)">Add Friend</button>
+        <button class="btn btn-outline-primary w-100" onclick="sendFriendRequest(@Model.User.Id)">Follow</button>
         }
         }
     </div>
@@ -51,7 +52,6 @@ var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? 
         {
         foreach (var post in Model.Posts)
         {
-        @* --- The same post-card structure from your homeindex.txt can be pasted here --- *@
         <div class="post-card" id="post-@post.Id">
             <div class="post-avatar-col">
                 <img src="@(Model.User.ProfilePicture ?? "/images/pf.png")" class="post-avatar" alt="User Avatar">
@@ -79,34 +79,30 @@ var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? 
                 <img src="@post.ImageUrl" class="post-image" alt="Post Image">
                 }
                 <div class="post-actions">
-                    @* Nút Like *@
                     <button class="btn-icon like-button @(Model.UserLikeStatus.GetValueOrDefault(post.Id) ? "liked" : "")" data-post-id="@post.Id">
                         <i class="fa-heart @(Model.UserLikeStatus.GetValueOrDefault(post.Id) ? "fas" : "far")"></i>
                     </button>
                     <span class="like-count">@Model.LikeCounts.GetValueOrDefault(post.Id)</span>
 
-                    @* NÚT COMMENT MỚI *@
                     <button class="btn-icon comment-toggle-button" data-post-id="@post.Id">
                         <i class="far fa-comment"></i>
                     </button>
                     <span class="comment-count">@Model.Comments.GetValueOrDefault(post.Id)?.Count</span>
                 </div>
-
-                @* KHU VỰC BÌNH LUẬN MỚI *@
                 <div class="comment-section" id="comment-section-@post.Id">
                     <div class="comment-list" id="comment-list-@post.Id">
                         @if (Model.Comments.TryGetValue(post.Id, out var commentsForPost))
                         {
-                            @foreach (var comment in commentsForPost)
-                            {
-                                <div class="comment-item">
-                                    <img src="@(comment.User?.ProfilePicture ?? "/images/pf.png")" alt="Avatar" class="comment-avatar" />
-                                    <div class="comment-body">
-                                        <a asp-action="Index" asp-controller="Profile" asp-route-id="@comment.User.Id" class="comment-user-name">@comment.User.FullName</a>
-                                        <p class="comment-content">@comment.Content</p>
-                                    </div>
-                                </div>
-                            }
+                        @foreach (var comment in commentsForPost)
+                        {
+                        <div class="comment-item">
+                            <img src="@(comment.User?.ProfilePicture ?? "/images/pf.png")" alt="Avatar" class="comment-avatar" />
+                            <div class="comment-body">
+                                <a asp-action="Index" asp-controller="Profile" asp-route-id="@comment.User.Id" class="comment-user-name">@comment.User.FullName</a>
+                                <p class="comment-content">@comment.Content</p>
+                            </div>
+                        </div>
+                        }
                         }
                     </div>
                     <div class="comment-input-form mt-3">
@@ -129,97 +125,67 @@ var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? 
 
 @if (Model.IsCurrentUser)
 {
-    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <form asp-action="EditProfile" asp-controller="Profile" method="post" enctype="multipart/form-data">
-                    @Html.AntiForgeryToken()
-                    <div class="modal-header">
-                        <div class="d-flex align-items-center">
-                            <button type="button" class="btn-close btn-close-white me-3" data-bs-dismiss="modal" aria-label="Close"></button>
-                            <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
-                        </div>
-                        <button type="submit" class="btn btn-light rounded-pill">Save</button>
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content create-post-modal-content">
+            <form asp-action="EditProfile" asp-controller="Profile" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <div class="d-flex align-items-center">
+                        <button type="button" class="btn-close btn-close-white me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
                     </div>
-                    <div class="modal-body edit-profile-body">
-                        <div class="edit-profile-banner">
-                            </div>
-                        <div class="edit-profile-main">
-                            <div class="edit-profile-avatar-wrapper">
-                                <label for="imageUpload" class="edit-profile-avatar-overlay" title="Change profile picture">
-                                    <i class="fas fa-camera fa-lg"></i>
-                                </label>
-                                <img src="@(Model.User.ProfilePicture ?? "/images/pf.png")" alt="Profile Picture" class="edit-profile-avatar" id="imagePreview">
-                            </div>
-
-                            <div class="edit-profile-form">
-                                <input type="file" name="ImageFile" id="imageUpload" class="d-none" accept="image/*" />
-                                <div class="mb-3">
-                                    <label for="bioText" class="form-label">Bio</label>
-                                    <textarea name="Bio" class="form-control" id="bioText" rows="3">@Model.User.Bio</textarea>
-                                </div>
+                    <button type="submit" class="btn btn-light rounded-pill">Save</button>
+                </div>
+                <div class="modal-body edit-profile-body">
+                    <div class="edit-profile-banner"></div>
+                    <div class="edit-profile-main">
+                        <div class="edit-profile-avatar-wrapper">
+                            <label for="imageUpload" class="edit-profile-avatar-overlay" title="Change profile picture">
+                                <i class="fas fa-camera fa-lg"></i>
+                            </label>
+                            <img src="@(Model.User.ProfilePicture ?? "/images/pf.png")" alt="Profile Picture" class="edit-profile-avatar" id="imagePreview">
+                        </div>
+                        <div class="edit-profile-form">
+                            <input type="file" name="ImageFile" id="imageUpload" class="d-none" accept="image/*" />
+                            <div class="mb-3">
+                                <label for="bioText" class="form-label">Bio</label>
+                                <textarea name="Bio" class="form-control" id="bioText" rows="3">@Model.User.Bio</textarea>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 }
 
 @section Scripts {
 <script>
-    // Preview image in modal
-    $('#imageUpload').on('change', function(event) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $('#imagePreview').attr('src', e.target.result);
-        }
-        reader.readAsDataURL(event.target.files[0]);
-    });
+    // Script này chỉ cần các hàm toàn cục, vì các event handler đã có ở trang Home
+    $(document).ready(function() {
+        var requestVerificationToken = $('input[name="__RequestVerificationToken"]:first').val();
 
-    // --- Paste all your existing script functions here ---
-    // (deletePost, sendFriendRequest, removeFriend, and the like button handler)
-    function deletePost(postId) {
-        if (confirm('Are you sure you want to delete this post?')) {
-            var token = $('input[name="__RequestVerificationToken"]:first').val();
-            $.ajax({
-                url: '/Home/DeletePost', type: 'POST', data: { id: postId, __RequestVerificationToken: token },
-                success: function (response) { if (response.success) { $('#post-' + postId).fadeOut(500, function() { $(this).remove(); }); } else { alert(response.message || 'Failed to delete post.'); } },
-                error: function () { alert('Error deleting post.'); }
-            });
-        }
-    }
-
-    function sendFriendRequest(receiverId) {
-        var token = $('input[name="__RequestVerificationToken"]:first').val();
-        $.ajax({
-            url: '/Friends/SendRequest', type: 'POST', data: { receiverId: receiverId, __RequestVerificationToken: token },
-            success: function(response) { if (response.success) { location.reload(); } else { alert('Failed to send request.'); } },
-            error: function() { alert('Error sending request.'); }
+        // Preview image in modal
+        $('#imageUpload').on('change', function(event) {
+            if (event.target.files && event.target.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) { $('#imagePreview').attr('src', e.target.result); }
+                reader.readAsDataURL(event.target.files[0]);
+            }
         });
-    }
 
-    function removeFriend(friendId) {
-        if (confirm('Are you sure you want to unfriend this user?')) {
-            var token = $('input[name="__RequestVerificationToken"]:first').val();
-            $.ajax({
-                url: '/Friends/RemoveFriend', type: 'POST', data: { friendId: friendId, __RequestVerificationToken: token },
-                success: function(response) { if (response.success) { location.reload(); } else { alert('Failed to remove friend.'); } },
-                error: function() { alert('Error removing friend.'); }
-            });
+        // Global functions
+        window.deletePost = function(postId) {
+            if (confirm('Are you sure?')) $.ajax({ url: '/Home/DeletePost', type: 'POST', data: { id: postId, __RequestVerificationToken: requestVerificationToken }, success: function(r) { if(r.success) $('#post-' + postId).fadeOut('slow', function() { $(this).remove(); }); else alert(r.message || 'Failed'); }, error: function() { alert('Error'); } });
         }
-    }
-
-    $(document).ready(function () {
-        $('.like-button').on('click', function () {
-            var button = $(this); var postId = button.data('post-id'); var icon = button.find('i'); var countSpan = button.next('.like-count');
-            $.ajax({
-                url: '/api/postinteraction/like', type: 'POST', contentType: 'application/json', data: JSON.stringify({ postId: postId }),
-                success: function (response) { countSpan.text(response.likeCount); button.toggleClass('liked', response.isLiked); icon.toggleClass('far fas', response.isLiked); },
-                error: function () { alert('Error processing like.'); }
-            });
-        });
+        window.sendFriendRequest = function(receiverId) {
+            $.ajax({ url: '/Friends/SendRequest', type: 'POST', data: { receiverId: receiverId, __RequestVerificationToken: requestVerificationToken }, success: function(r) { if(r.success) location.reload(); else alert('Failed'); }, error: function() { alert('Error'); } });
+        }
+        window.removeFriend = function(friendId) {
+            if (confirm('Are you sure?')) $.ajax({ url: '/Friends/RemoveFriend', type: 'POST', data: { friendId: friendId, __RequestVerificationToken: requestVerificationToken }, success: function(r) { if(r.success) location.reload(); else alert('Failed'); }, error: function() { alert('Error'); } });
+        }
     });
 </script>
 }
