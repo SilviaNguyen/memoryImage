@@ -37,6 +37,10 @@
       "PackagePath": "staticwebassets\\images\\profile_pictures\\509fc3a9-8b1f-449f-b796-b409bb333128_IMG_5946.JPG"
     },
     {
+      "Id": "P:\\Work\\CNPM\\Memory Image\\MemoryImage\\MemoryImage.Web\\wwwroot\\js\\postInteraction.js",
+      "PackagePath": "staticwebassets\\js\\postInteraction.js"
+    },
+    {
       "Id": "P:\\Work\\CNPM\\Memory Image\\MemoryImage\\MemoryImage.Web\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

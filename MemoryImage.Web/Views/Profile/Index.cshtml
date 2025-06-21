@@ -52,13 +52,17 @@ var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? 
         {
         foreach (var post in Model.Posts)
         {
+        @* Cấu trúc post-card được đồng bộ hoàn toàn với trang Home *@
         <div class="post-card" id="post-@post.Id">
             <div class="post-avatar-col">
                 <img src="@(Model.User.ProfilePicture ?? "/images/pf.png")" class="post-avatar" alt="User Avatar">
             </div>
             <div class="post-body">
                 <div class="post-header">
-                    <a asp-action="Index" asp-controller="Profile" asp-route-id="@post.User.Id" class="post-user-name">@post.User.FullName</a>
+                    <div class="post-author-container" data-hovercard-id="hover-card-@post.UserId">
+                        <a asp-action="Index" asp-controller="Profile" asp-route-id="@post.User.Id" class="post-user-name">@post.User.FullName</a>
+                        @* Hover card không cần thiết ở đây vì tất cả bài đăng đều của cùng 1 người, nhưng để cấu trúc giống nhau *@
+                    </div>
                     <div class="d-flex align-items-center">
                         <span class="post-time me-3">@post.CreatedAt.ToLocalTime().ToString("dd MMM")</span>
                         @if (post.UserId == currentUserId)
@@ -163,11 +167,10 @@ var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? 
 
 @section Scripts {
 <script>
-    // Script này chỉ cần các hàm toàn cục, vì các event handler đã có ở trang Home
     $(document).ready(function() {
-        var requestVerificationToken = $('input[name="__RequestVerificationToken"]:first').val();
+        // Script này chỉ xử lý các sự kiện của riêng trang Profile
 
-        // Preview image in modal
+        // Preview image in Edit Profile modal
         $('#imageUpload').on('change', function(event) {
             if (event.target.files && event.target.files[0]) {
                 var reader = new FileReader();
@@ -175,17 +178,6 @@ var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? 
                 reader.readAsDataURL(event.target.files[0]);
             }
         });
-
-        // Global functions
-        window.deletePost = function(postId) {
-            if (confirm('Are you sure?')) $.ajax({ url: '/Home/DeletePost', type: 'POST', data: { id: postId, __RequestVerificationToken: requestVerificationToken }, success: function(r) { if(r.success) $('#post-' + postId).fadeOut('slow', function() { $(this).remove(); }); else alert(r.message || 'Failed'); }, error: function() { alert('Error'); } });
-        }
-        window.sendFriendRequest = function(receiverId) {
-            $.ajax({ url: '/Friends/SendRequest', type: 'POST', data: { receiverId: receiverId, __RequestVerificationToken: requestVerificationToken }, success: function(r) { if(r.success) location.reload(); else alert('Failed'); }, error: function() { alert('Error'); } });
-        }
-        window.removeFriend = function(friendId) {
-            if (confirm('Are you sure?')) $.ajax({ url: '/Friends/RemoveFriend', type: 'POST', data: { friendId: friendId, __RequestVerificationToken: requestVerificationToken }, success: function(r) { if(r.success) location.reload(); else alert('Failed'); }, error: function() { alert('Error'); } });
-        }
     });
 </script>
 }

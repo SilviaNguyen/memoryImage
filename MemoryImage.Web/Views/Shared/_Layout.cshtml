@@ -42,6 +42,11 @@
                     <span>Profile</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Friends" asp-action="Index">
+                    <i class="fas fa-user-friends"></i> <span>Friends</span>
+                </a>
+            </li>
         </ul>
 
         @await Html.PartialAsync("_FriendSuggestionsPartial")
@@ -104,22 +109,159 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+@* --- Dán toàn bộ khối này vào cuối file _Layout.cshtml, ngay trước </body> --- *@
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
 <script>
-    function sendFriendRequest(receiverId) {
-        $.ajax({
-            url: '/Friends/SendRequest',
-            type: 'POST',
-            data: { receiverId: receiverId, __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
-            success: function(response) {
-                if (response.success) {
-                    location.reload();
-                } else {
-                    alert('Failed to send friend request.');
+    $(document).ready(function() {
+        var requestVerificationToken = $('input[name="__RequestVerificationToken"]:first').val();
+
+        //==================================================
+        // ALL INTERACTION LOGIC IS HERE
+        //==================================================
+
+        // 1. Like button
+        $('body').on('click', '.like-button', function() {
+            var button = $(this);
+            var postId = button.data('post-id');
+            var icon = button.find('i');
+            $.ajax({
+                url: '/api/postinteraction/like',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ postId: postId }),
+                success: function(response) {
+                    button.next('.like-count').text(response.likeCount);
+                    button.toggleClass('liked', response.isLiked);
+                    icon.removeClass('far fas').addClass(response.isLiked ? 'fas' : 'far');
                 }
+            });
+        });
+
+        // 2. Comment functionality
+        $('body').on('click', '.comment-toggle-button', function() {
+            $('#comment-section-' + $(this).data('post-id')).slideToggle('fast');
+        });
+
+        $('body').on('keyup', '.comment-input', function() {
+            var button = $('.post-comment-button[data-post-id="' + $(this).data('post-id') + '"]');
+            $(this).val().trim().length > 0 ? button.show() : button.hide();
+        });
+
+        function postComment(postId) {
+            var input = $('.comment-input[data-post-id="' + postId + '"]');
+            var content = input.val().trim();
+            if (!content) return;
+            $.ajax({
+                url: '/api/postinteraction/comment',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ postId: postId, content: content }),
+                success: function(response) {
+                    var escapedContent = $('<div/>').text(content).html();
+                    var newCommentHtml = `<div class="comment-item" style="display:none;"><img src="${response.profilePicture || '/images/pf.png'}" alt="Avatar" class="comment-avatar" /><div class="comment-body"><a href="/Profile/Index/${response.userId}" class="comment-user-name">${response.userName}</a><p class="comment-content">${escapedContent}</p></div></div>`;
+                    var commentList = $('#comment-list-' + postId);
+                    $(newCommentHtml).prependTo(commentList).fadeIn('slow');
+                    input.val('');
+                    $('.post-comment-button[data-post-id="' + postId + '"]').hide();
+                    var countSpan = $('.comment-toggle-button[data-post-id="' + postId + '"]').next('.comment-count');
+                    countSpan.text((parseInt(countSpan.text()) || 0) + 1);
+                }
+            });
+        }
+
+        $('body').on('click', '.post-comment-button', function() { postComment($(this).data('post-id')); });
+        $('body').on('keypress', '.comment-input', function(e) {
+            if (e.which === 13 && !e.shiftKey) {
+                e.preventDefault();
+                postComment($(this).data('post-id'));
             }
         });
-    }
+
+        // 3. Author Hover Card
+        var hoverTimeout;
+        $('body').on('mouseenter', '.post-author-container', function() {
+            clearTimeout(hoverTimeout);
+            var triggerElement = $(this);
+            var cardId = triggerElement.data('hovercard-id');
+            var card = $('#' + cardId);
+            if (card.length === 0) return;
+            card.appendTo('body');
+            var triggerPos = triggerElement.offset();
+            var cardHeight = card.outerHeight();
+            card.css({
+                top: triggerPos.top - cardHeight - 5,
+                left: triggerPos.left
+            }).show();
+            card.off('mouseenter').on('mouseenter', function() { clearTimeout(hoverTimeout); });
+            card.off('mouseleave').on('mouseleave', function() { $(this).hide(); });
+        }).on('mouseleave', '.post-author-container', function() {
+            var cardId = $(this).data('hovercard-id');
+            var card = $('#' + cardId);
+            hoverTimeout = setTimeout(function() { card.hide(); }, 200);
+        });
+        
+        // 4. Page-specific modal logic
+        // Create Post Modal (Home Page)
+        if ($('#createPostModal').length) {
+            $('#modalImageFile').on('change', function(event) {
+                if (event.target.files && event.target.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#modal-image-preview').attr('src', e.target.result);
+                        $('#modal-image-preview-container').show();
+                    }
+                    reader.readAsDataURL(event.target.files[0]);
+                }
+            });
+            $('#modal-remove-image-btn').on('click', function() {
+                $('#modalImageFile').val("");
+                $('#modal-image-preview-container').hide();
+                $('#modal-image-preview').attr('src', '#');
+            });
+            $('#createPostModal').on('hidden.bs.modal', function() {
+                $('#modal-remove-image-btn').click();
+                $('.create-post-modal-textarea').val('');
+            });
+        }
+
+        // Edit Profile Modal (Profile Page)
+        if ($('#editProfileModal').length) {
+            $('#imageUpload').on('change', function(event) {
+                if (event.target.files && event.target.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) { $('#imagePreview').attr('src', e.target.result); }
+                    reader.readAsDataURL(event.target.files[0]);
+                }
+            });
+        }
+
+        // 5. Global functions (for onclick attributes)
+        window.deletePost = function(postId) {
+            if (confirm('Are you sure?')) $.ajax({ url: '/Home/DeletePost', type: 'POST', data: { id: postId, __RequestVerificationToken: requestVerificationToken }, success: function(r) { if(r.success) $('#post-' + postId).fadeOut('slow'); else alert(r.message || 'Failed'); } });
+        }
+        window.sendFriendRequest = function(receiverId) {
+            $.ajax({ url: '/Friends/SendRequest', type: 'POST', data: { receiverId: receiverId, __RequestVerificationToken: requestVerificationToken }, success: function(r) { if(r.success) location.reload(); else alert('Failed'); } });
+        }
+        window.acceptRequest = function(friendshipId) {
+            $.ajax({ url: '/Friends/AcceptRequest', type: 'POST', data: { friendshipId: friendshipId, __RequestVerificationToken: requestVerificationToken }, success: function(r) { if(r.success) $('#request-' + friendshipId).fadeOut('slow'); else alert('Failed'); } });
+        }
+        window.declineRequest = function(friendshipId) {
+            $.ajax({ url: '/Friends/DeclineRequest', type: 'POST', data: { friendshipId: friendshipId, __RequestVerificationToken: requestVerificationToken }, success: function(r) { if(r.success) $('#request-' + friendshipId).fadeOut('slow'); else alert('Failed'); } });
+        }
+        window.removeFriend = function(friendId) {
+            if (confirm('Are you sure?')) $.ajax({ url: '/Friends/RemoveFriend', type: 'POST', data: { friendId: friendId, __RequestVerificationToken: requestVerificationToken }, success: function(r) { if(r.success) location.reload(); else alert('Failed'); } });
+        }
+    });
 </script>
+
+@* Giữ lại dòng này để trống, phòng trường hợp cần thêm script đặc biệt hơn trong tương lai *@
 @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
+

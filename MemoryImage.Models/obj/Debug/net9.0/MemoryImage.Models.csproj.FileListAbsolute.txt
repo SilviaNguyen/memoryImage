@@ -10,3 +10,4 @@ P:\Work\CNPM\Memory Image\MemoryImage\MemoryImage.Models\obj\Debug\net9.0\Memory
 P:\Work\CNPM\Memory Image\MemoryImage\MemoryImage.Models\obj\Debug\net9.0\refint\MemoryImage.Models.dll
 P:\Work\CNPM\Memory Image\MemoryImage\MemoryImage.Models\obj\Debug\net9.0\MemoryImage.Models.pdb
 P:\Work\CNPM\Memory Image\MemoryImage\MemoryImage.Models\obj\Debug\net9.0\ref\MemoryImage.Models.dll
+P:\Work\CNPM\Memory Image\MemoryImage\MemoryImage.Models\obj\Debug\net9.0\MemoryImage.Models.sourcelink.json

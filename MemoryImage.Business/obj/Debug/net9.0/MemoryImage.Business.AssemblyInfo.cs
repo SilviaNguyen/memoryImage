@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MemoryImage.Business")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+27608eea4eb5035972b3abd12ed3a0d275c44d18")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7abdf739e29dbf0d28dc3d6fd6f823bc17a13ce9")]
 [assembly: System.Reflection.AssemblyProductAttribute("MemoryImage.Business")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MemoryImage.Business")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
