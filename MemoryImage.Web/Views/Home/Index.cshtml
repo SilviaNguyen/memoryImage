@@ -1,0 +1,388 @@
+﻿@using System.Security.Claims
+@using MemoryImage.Models
+@model MemoryImage.Models.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Home";
+    var currentUserId = Model?.CurrentUser?.Id ?? 0;
+}
+
+<div class="container-fluid" style="max-width: 620px; margin: 0 auto; padding: 0;">
+    
+    @await Html.PartialAsync("_FriendRequestsPartial", Model.PendingRequests)
+
+    <div class="post-card create-post-trigger" data-bs-toggle="modal" data-bs-target="#createPostModal">
+        <div class="post-avatar-col">
+            <img src="@(Model.CurrentUser?.ProfilePicture ?? "/images/pf.png")" class="post-avatar"  >
+        </div>
+        <div class="post-body">
+            <span class="text-muted">What's on your mind?</span>
+        </div>
+        <div class="ms-auto">
+            <button class="btn btn-outline-secondary rounded-pill disabled">Post</button>
+        </div>
+    </div>
+
+    @if (Model?.NewsFeedPosts != null && Model.NewsFeedPosts.Any())
+    {
+        foreach (var post in Model.NewsFeedPosts)
+        {
+            <div class="post-card" id="post-@post.Id">
+                <div class="post-avatar-col">
+                    <img src="@(post.User?.ProfilePicture ?? "/images/pf.png")" class="post-avatar"  >
+                </div>
+                <div class="post-body">
+                    <div class="post-header">
+                        <div class="post-author-container">
+                            <a asp-action="Index" asp-controller="Profile" asp-route-id="@post.User?.Id" class="post-user-name">
+                                @(post.User?.FullName ?? "Unknown User")
+                            </a>
+
+                            @if (post.UserId != currentUserId)
+                            {
+                                <div class="author-hover-card">
+                                    <div class="hover-card-header">
+                                        <img src="@(post.User?.ProfilePicture ?? "/images/pf.png")" class="hover-card-avatar" />
+                                        @{
+                                            var status = Model.FriendshipStatuses.GetValueOrDefault(post.UserId);
+                                            if (status == null)
+                                            {
+                                                <button class="btn btn-sm btn-light rounded-pill" onclick="sendFriendRequest(@post.UserId)">Follow</button>
+                                            }
+                                            else if (status == FriendshipStatus.Pending)
+                                            {
+                                                <button class="btn btn-sm btn-outline-warning rounded-pill disabled">Requested</button>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="hover-card-info">
+                                        <p class="name mb-0">@post.User.FullName</p>
+                                        <p class="email">@("@" + post.User.Email.Split('@')[0])</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <span class="post-time me-3">@post.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</span>
+                            @if (post.UserId == currentUserId)
+                            {
+                                <div class="dropdown">
+                                    <button class="btn-icon" type="button" data-bs-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></button>
+                                    <ul class="dropdown-menu dropdown-menu-dark">
+                                        <li><a class="dropdown-item" asp-action="EditPost" asp-controller="Home" asp-route-id="@post.Id"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                        <li><button class="dropdown-item text-danger" onclick="deletePost(@post.Id)"><i class="fas fa-trash-alt me-2"></i>Delete</button></li>
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="post-content"><p>@post.Content</p></div>
+                    @if (!string.IsNullOrWhiteSpace(post.ImageUrl))
+                    {
+                        <img src="@post.ImageUrl" class="post-image" alt="Post Image">
+                    }
+                    <div class="post-actions">
+                        <button class="btn-icon like-button @(Model.UserLikeStatus.GetValueOrDefault(post.Id) ? "liked" : "")" data-post-id="@post.Id">
+                            <i class="fa-heart @(Model.UserLikeStatus.GetValueOrDefault(post.Id) ? "fas" : "far")"></i>
+                        </button>
+                        <span class="like-count">@Model.LikeCounts.GetValueOrDefault(post.Id)</span>
+                        
+                        <button class="btn-icon comment-toggle-button" data-post-id="@post.Id">
+                            <i class="far fa-comment"></i>
+                        </button>
+                        <span class="comment-count">@Model.Comments.GetValueOrDefault(post.Id)?.Count</span>
+                    </div>
+
+                    <div class="comment-section" id="comment-section-@post.Id">
+                        <div class="comment-list" id="comment-list-@post.Id">
+                            @if (Model.Comments.TryGetValue(post.Id, out var commentsForPost))
+                            {
+                                @foreach (var comment in commentsForPost)
+                                {
+                                    <div class="comment-item">
+                                        <img src="@(comment.User?.ProfilePicture ?? "/images/pf.png")" alt="Avatar" class="comment-avatar" />
+                                        <div class="comment-body">
+                                            <a asp-action="Index" asp-controller="Profile" asp-route-id="@comment.User.Id" class="comment-user-name">@comment.User.FullName</a>
+                                            <p class="comment-content">@comment.Content</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="comment-input-form mt-3">
+                            <img src="@(Model.CurrentUser?.ProfilePicture ?? "/images/pf.png")" class="comment-avatar" />
+                            <input type="text" class="form-control comment-input" data-post-id="@post.Id" placeholder="Write a comment.">
+                            <button class="btn btn-primary btn-sm rounded-pill post-comment-button" data-post-id="@post.Id" style="display: none;">Post</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center p-5 text-muted">
+            <h4>Welcome to MemoryImage!</h4>
+            <p>It looks a bit empty here. Find people you know to see their posts, or create your first post!</p>
+        </div>
+    }
+</div>
+
+
+@* --- MODAL TẠO BÀI ĐĂNG MỚI (THEO STYLE CỦA THREADS) --- *@
+<div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content create-post-modal-content">
+            <form asp-action="CreatePost" asp-controller="Home" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createPostModalLabel">New Post</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex gap-3">
+                        <div class="post-avatar-col">
+                            <img src="@(Model.CurrentUser?.ProfilePicture ?? "/images/pf.png")" class="post-avatar"  >
+                        </div>
+                        <div class="post-body">
+                            <span class="fw-bold">@(Model.CurrentUser?.FullName)</span>
+                            <textarea asp-for="CreatePost.Content" class="form-control create-post-modal-textarea" placeholder="What's on your mind?"></textarea>
+                            
+                            <div id="modal-image-preview-container" style="display: none; margin-top: 10px; position: relative;">
+                                <img id="modal-image-preview" src="#" alt="Image Preview" class="post-image" />
+                                <button type="button" class="btn-close btn-close-white" id="modal-remove-image-btn" style="position: absolute; top: 10px; right: 10px; background-color: rgba(0,0,0,0.5);"></button>
+                            </div>
+
+                            <label for="modalImageFile" class="btn-icon mt-3" style="cursor: pointer;" title="Add Photo">
+                                <i class="far fa-image fa-lg"></i>
+                            </label>
+                            <input asp-for="CreatePost.ImageFile" type="file" id="modalImageFile" class="d-none" accept="image/*" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Lấy token CSRF một lần để tái sử dụng
+            var requestVerificationToken = $('input[name="__RequestVerificationToken"]:first').val();
+
+            // =================================================================
+            // SCRIPT HOÀN CHỈNH VỚI EVENT DELEGATION VÀ SỬA LỖI
+            // =================================================================
+
+            // Like button
+            $('body').on('click', '.like-button', function() {
+                var button = $(this);
+                var postId = button.data('post-id');
+                var icon = button.find('i');
+                $.ajax({
+                    url: '/api/postinteraction/like',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ postId: postId }),
+                    success: function(response) {
+                        button.next('.like-count').text(response.likeCount);
+                        button.toggleClass('liked', response.isLiked);
+                        icon.removeClass('far fas').addClass(response.isLiked ? 'fas' : 'far');
+                    },
+                    error: function() { console.error("Failed to like the post."); }
+                });
+            });
+
+            // Author Hover Card
+            var hoverTimeout;
+            $('body').on('mouseenter', '.post-author-container', function() {
+                clearTimeout(hoverTimeout);
+                var triggerElement = $(this);
+                var card = triggerElement.find('.author-hover-card');
+                card.appendTo('body').show();
+                var triggerPos = triggerElement.offset();
+                var triggerHeight = triggerElement.outerHeight();
+                var cardHeight = card.outerHeight();
+                card.css({
+                    top: triggerPos.top - cardHeight - 5,
+                    left: triggerPos.left
+                });
+                card.hide().fadeIn(150);
+                card.off('mouseenter').on('mouseenter', function() {
+                    clearTimeout(hoverTimeout);
+                });
+                card.off('mouseleave').on('mouseleave', function() {
+                    $(this).fadeOut(150);
+                });
+            }).on('mouseleave', '.post-author-container', function() {
+                var card = $('.author-hover-card');
+                hoverTimeout = setTimeout(function() {
+                    card.fadeOut(150);
+                }, 200);
+            });
+
+            // Comment functionality
+            $('body').on('click', '.comment-toggle-button', function() {
+                var postId = $(this).data('post-id');
+                $('#comment-section-' + postId).slideToggle('fast');
+            });
+
+            $('body').on('keyup', '.comment-input', function() {
+                var postId = $(this).data('post-id');
+                var button = $('.post-comment-button[data-post-id="' + postId + '"]');
+                if ($(this).val().trim().length > 0) {
+                    button.show();
+                } else {
+                    button.hide();
+                }
+            });
+
+            function postComment(postId) {
+                var input = $('.comment-input[data-post-id="' + postId + '"]');
+                var content = input.val().trim();
+                if (!content) return;
+
+                $.ajax({
+                    url: '/api/postinteraction/comment',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ postId: postId, content: content }),
+                    success: function(response) {
+                        var escapedContent = $('<div/>').text(content).html();
+                        var newCommentHtml = `
+                            <div class="comment-item" style="display:none;">
+                                <img src="${response.profilePicture || '/images/pf.png'}" alt="Avatar" class="comment-avatar" />
+                                <div class="comment-body">
+                                    <a href="/Profile?id=${response.userId}" class="comment-user-name">${response.userName}</a>
+                                    <p class="comment-content">${escapedContent}</p>
+                                </div>
+                            </div>
+                        `;
+                        var commentList = $('#comment-list-' + postId);
+                        $(newCommentHtml).prependTo(commentList).fadeIn('slow');
+                        input.val('');
+                        $('.post-comment-button[data-post-id="' + postId + '"]').hide();
+                        
+                        var countSpan = $('.comment-toggle-button[data-post-id="' + postId + '"]').next('.comment-count');
+                        var currentCount = parseInt(countSpan.text()) || 0;
+                        countSpan.text(currentCount + 1);
+                    },
+                    error: function() { alert('Failed to post comment.'); }
+                });
+            }
+
+            $('body').on('click', '.post-comment-button', function() {
+                var postId = $(this).data('post-id');
+                postComment(postId);
+            });
+
+            $('body').on('keypress', '.comment-input', function(e) {
+                if (e.which === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    var postId = $(this).data('post-id');
+                    postComment(postId);
+                }
+            });
+            
+            // Modal Image Preview Handler
+            const modalImageInput = document.getElementById('modalImageFile');
+            const modalImagePreview = document.getElementById('modal-image-preview');
+            const modalPreviewContainer = document.getElementById('modal-image-preview-container');
+            const modalRemoveBtn = document.getElementById('modal-remove-image-btn');
+
+            if (modalImageInput) {
+                modalImageInput.addEventListener('change', function(event) {
+                    if (event.target.files && event.target.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            modalImagePreview.setAttribute('src', e.target.result);
+                            modalPreviewContainer.style.display = 'block';
+                        }
+                        reader.readAsDataURL(event.target.files[0]);
+                    }
+                });
+            }
+
+            if (modalRemoveBtn) {
+                 modalRemoveBtn.addEventListener('click', function() {
+                    modalImageInput.value = ""; 
+                    modalPreviewContainer.style.display = 'none';
+                    modalImagePreview.setAttribute('src', '#');
+                });
+            }
+
+            // Global functions for post/friend actions
+            window.deletePost = function(postId) {
+                if (confirm('Are you sure you want to delete this post?')) {
+                    $.ajax({
+                        url: '/Home/DeletePost',
+                        type: 'POST',
+                        data: { id: postId, __RequestVerificationToken: requestVerificationToken },
+                        success: function(response) {
+                            if (response.success) {
+                                $('#post-' + postId).fadeOut('slow', function() { $(this).remove(); });
+                            } else {
+                                alert(response.message || 'Failed to delete post.');
+                            }
+                        },
+                        error: function() { alert('An error occurred while deleting the post.'); }
+                    });
+                }
+            }
+
+            window.sendFriendRequest = function(receiverId) {
+                $.ajax({
+                    url: '/Friends/SendRequest',
+                    type: 'POST',
+                    data: { receiverId: receiverId, __RequestVerificationToken: requestVerificationToken },
+                    success: function(response) {
+                        if (response.success) {
+                            location.reload(); 
+                        } else {
+                            alert('Failed to send request.');
+                        }
+                    },
+                    error: function() { alert('Error sending request.'); }
+                });
+            }
+            
+            // --- SỬA LỖI: DI CHUYỂN VÀO TRONG VÀ GẮN VÀO WINDOW ---
+            window.acceptRequest = function(friendshipId) {
+                $.ajax({
+                    url: '/Friends/AcceptRequest',
+                    type: 'POST',
+                    data: { friendshipId: friendshipId, __RequestVerificationToken: requestVerificationToken },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#request-' + friendshipId).fadeOut('slow', function() { $(this).remove(); });
+                        } else {
+                            alert('Failed to accept request.');
+                        }
+                    },
+                    error: function() { alert('Error processing request.'); }
+                });
+            }
+
+            window.declineRequest = function(friendshipId) {
+                $.ajax({
+                    url: '/Friends/DeclineRequest',
+                    type: 'POST',
+                    data: { friendshipId: friendshipId, __RequestVerificationToken: requestVerificationToken },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#request-' + friendshipId).fadeOut('slow', function() { $(this).remove(); });
+                        } else {
+                            alert('Failed to decline request.');
+                        }
+                    },
+                    error: function() { alert('Error processing request.'); }
+                });
+            }
+        });
+    </script>
+}
