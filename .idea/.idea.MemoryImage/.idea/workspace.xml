@@ -10,9 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68e3dd4d-871f-4414-8064-b920d00e1807" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MemoryImage.Web/Views/Friends/Index.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MemoryImage.Web/wwwroot/js/postInteraction.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MemoryImage.Business/Constants.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MemoryImage.Business/Services/FileStorageService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MemoryImage.Business/Services/IFileStorageService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MemoryImage/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MemoryImage/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/Interfaces/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/Interfaces/AuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/Interfaces/IAuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/Interfaces/IAuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/MemoryImage.Business.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/MemoryImage.Business.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/Services/PostService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/Services/PostService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/Services/UserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/bin/Debug/net9.0/MemoryImage.Business.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/bin/Debug/net9.0/MemoryImage.Business.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Business/bin/Debug/net9.0/MemoryImage.Business.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/bin/Debug/net9.0/MemoryImage.Business.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Business/bin/Debug/net9.0/MemoryImage.Business.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/bin/Debug/net9.0/MemoryImage.Business.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Business/bin/Debug/net9.0/MemoryImage.Data.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/bin/Debug/net9.0/MemoryImage.Data.dll" afterDir="false" />
@@ -21,12 +28,20 @@
       <change beforePath="$PROJECT_DIR$/MemoryImage.Business/bin/Debug/net9.0/MemoryImage.Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/bin/Debug/net9.0/MemoryImage.Models.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/MemoryImage.Business.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/ref/MemoryImage.Business.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/ref/MemoryImage.Business.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/refint/MemoryImage.Business.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/Debug/net9.0/refint/MemoryImage.Business.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/MemoryImage.Business.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/MemoryImage.Business.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Business/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Business/obj/rider.project.restore.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Data/bin/Debug/net9.0/MemoryImage.Data.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Data/bin/Debug/net9.0/MemoryImage.Data.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Data/bin/Debug/net9.0/MemoryImage.Data.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Data/bin/Debug/net9.0/MemoryImage.Data.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Data/bin/Debug/net9.0/MemoryImage.Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Data/bin/Debug/net9.0/MemoryImage.Models.dll" afterDir="false" />
@@ -36,49 +51,52 @@
       <change beforePath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/MemoryImage.Data.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/MemoryImage.Data.csproj.AssemblyReference.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/MemoryImage.Data.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/MemoryImage.Data.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/MemoryImage.Data.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/MemoryImage.Data.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/MemoryImage.Data.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/MemoryImage.Data.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/ref/MemoryImage.Data.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/ref/MemoryImage.Data.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/refint/MemoryImage.Data.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Data/obj/Debug/net9.0/refint/MemoryImage.Data.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Data/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Data/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Data/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Data/obj/rider.project.restore.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Models/bin/Debug/net9.0/MemoryImage.Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/bin/Debug/net9.0/MemoryImage.Models.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Models/bin/Debug/net9.0/MemoryImage.Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/bin/Debug/net9.0/MemoryImage.Models.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/MemoryImage.Models.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/ref/MemoryImage.Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/ref/MemoryImage.Models.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/refint/MemoryImage.Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/obj/Debug/net9.0/refint/MemoryImage.Models.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/Controllers/FriendshipController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/Controllers/FriendshipController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Models/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Models/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Models/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/Controllers/AccountController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/Controllers/AccountController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/Views/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/Views/Home/Index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/Views/Profile/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/Views/Profile/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/Views/Shared/_Layout.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Business.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Business.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Business.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Business.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Data.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Data.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Data.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Data.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Models.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Models.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Models.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Models.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.deps.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.staticwebassets.endpoints.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.staticwebassets.endpoints.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.staticwebassets.runtime.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/bin/Debug/net9.0/MemoryImage.Web.staticwebassets.runtime.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/MemoryImage.Web.sourcelink.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/ref/MemoryImage.Web.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/ref/MemoryImage.Web.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/refint/MemoryImage.Web.dll" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/refint/MemoryImage.Web.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets.build.endpoints.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets.build.endpoints.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets.build.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets.build.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets.development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets.pack.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets.pack.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets/msbuild.MemoryImage.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets/msbuild.MemoryImage.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets/msbuild.MemoryImage.Web.Microsoft.AspNetCore.StaticWebAssets.props" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/Debug/net9.0/staticwebassets/msbuild.MemoryImage.Web.Microsoft.AspNetCore.StaticWebAssets.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/wwwroot/css/site.css" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/wwwroot/css/site.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/MemoryImage.Web.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/MemoryImage.Web.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MemoryImage.Web/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/MemoryImage.Web/obj/rider.project.restore.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,34 +137,37 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="2yhiOO4wZtX2UAdLyQGaLk7elzh" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.MemoryImage: http.executor": "Debug",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "SolutionBuilderGeneralOptionsPage",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.MemoryImage: http.executor&quot;: &quot;Run&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;SolutionBuilderGeneralOptionsPage&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlserver.localdb"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlserver.localdb&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.MemoryImage: http">
     <configuration name="MemoryImage: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/MemoryImage.Web/MemoryImage.Web.csproj" />
@@ -264,7 +285,12 @@
       <workItem from="1750484750826" duration="6562000" />
       <workItem from="1750501339413" duration="1240000" />
       <workItem from="1750502806828" duration="2284000" />
-      <workItem from="1750511023963" duration="2189000" />
+      <workItem from="1750511023963" duration="2232000" />
+      <workItem from="1750560858369" duration="1683000" />
+      <workItem from="1750694606617" duration="1543000" />
+      <workItem from="1750696179668" duration="949000" />
+      <workItem from="1751240895725" duration="739000" />
+      <workItem from="1751381960021" duration="1155000" />
     </task>
     <task id="LOCAL-00001" summary="Initial">
       <option name="closed" value="true" />
@@ -290,7 +316,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750511055629</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fix comments problem">
+      <option name="closed" value="true" />
+      <created>1750513278521</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1750513278521</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -320,7 +354,8 @@
     <MESSAGE value="Initial" />
     <MESSAGE value="admin fix" />
     <MESSAGE value="8PM21June6" />
-    <option name="LAST_COMMIT_MESSAGE" value="8PM21June6" />
+    <MESSAGE value="Fix comments problem" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix comments problem" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -3,12 +3,11 @@ using MemoryImage.Data.Repositories;
 using MemoryImage.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
 
 namespace MemoryImage.Business.Services
 {
@@ -16,13 +15,14 @@ namespace MemoryImage.Business.Services
     {
         private readonly IPostRepository _postRepository;
         private readonly IHostEnvironment _hostEnvironment;
+        private readonly IFileStorageService _fileStorageService;
         private readonly ApplicationDbContext _context; 
 
-        public PostService(IPostRepository postRepository, IHostEnvironment hostEnvironment, ApplicationDbContext context)
+        public PostService(IPostRepository postRepository, IFileStorageService fileStorageService, ApplicationDbContext context)
         {
             _postRepository = postRepository;
-            _hostEnvironment = hostEnvironment;
-            _context = context; 
+            _fileStorageService = fileStorageService;
+            _context = context;
         }
         public async Task<bool> DeletePostAsAdminAsync(int postId)
         {
@@ -102,8 +102,13 @@ namespace MemoryImage.Business.Services
 
         public async Task<Post> CreatePostAsync(int userId, string? content, IFormFile? imageFile)
         {
-            string? imageUrl = await SaveImageAsync(imageFile, "posts");
-            if (string.IsNullOrWhiteSpace(content) && string.IsNullOrWhiteSpace(imageUrl)) throw new ArgumentException("Post must have either content or an image.");
+            var imageUrl = await _fileStorageService.SaveFileAsync(imageFile, AppConstants.PostsFolderName);
+
+            if (string.IsNullOrWhiteSpace(content) && string.IsNullOrWhiteSpace(imageUrl))
+            {
+                throw new ArgumentException("Post must have either content or an image.");
+            }
+
             var post = new Post { UserId = userId, Content = content, ImageUrl = imageUrl, CreatedAt = DateTime.UtcNow };
             return await _postRepository.AddAsync(post);
         }
@@ -143,9 +148,11 @@ namespace MemoryImage.Business.Services
         {
             var post = await _postRepository.GetByIdAsync(postId);
             if (post == null || post.UserId != currentUserId) return false;
-            DeleteImage(post.ImageUrl);
+
+            _fileStorageService.DeleteFile(post.ImageUrl);
             return await _postRepository.DeleteAsync(postId);
         }
+
 
         public async Task<(bool success, bool isLiked)> LikeOrUnlikePostAsync(int postId, int userId)
         {

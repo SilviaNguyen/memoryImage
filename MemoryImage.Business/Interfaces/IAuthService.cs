@@ -1,5 +1,6 @@
 ﻿using MemoryImage.Models;
 using MemoryImage.Models.ViewModels;
+using System.Threading.Tasks;
 
 namespace MemoryImage.Business.Services
 {
@@ -7,8 +8,5 @@ namespace MemoryImage.Business.Services
     {
         Task<User> LoginAsync(LoginViewModel model);
         Task<User> RegisterAsync(RegisterViewModel model);
-        Task<bool> LogoutAsync();
-        string HashPassword(string password);
-        bool VerifyPassword(string password, string hash);
     }
 }

@@ -1,70 +1,58 @@
 ﻿using MemoryImage.Models;
 using MemoryImage.Models.ViewModels;
 using MemoryImage.Data.Repositories;
-using System.Security.Cryptography;
-using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity; // Thêm using
+using System; // Thêm using
 
 namespace MemoryImage.Business.Services
 {
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
-        
-        public AuthService(IUserRepository userRepository)
+        private readonly IPasswordHasher<User> _passwordHasher;
+
+        public AuthService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher)
         {
             _userRepository = userRepository;
+            _passwordHasher = passwordHasher;
         }
-        
+
         public async Task<User> LoginAsync(LoginViewModel model)
         {
             var user = await _userRepository.GetByEmailAsync(model.Email);
-            if (user != null && user.IsActive && VerifyPassword(model.Password, user.PasswordHash))
+            if (user != null && user.IsActive)
             {
-                user.LastLoginAt = DateTime.UtcNow;
-                await _userRepository.UpdateAsync(user);
-                return user;
+                var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
+                if (result == PasswordVerificationResult.Success)
+                {
+                    user.LastLoginAt = DateTime.UtcNow;
+                    await _userRepository.UpdateAsync(user);
+                    return user;
+                }
             }
             return null;
         }
-        
+
         public async Task<User> RegisterAsync(RegisterViewModel model)
         {
             if (await _userRepository.ExistsAsync(model.Email))
-                return null; // User already exists
-                
+                return null;
+
             var user = new User
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                PasswordHash = HashPassword(model.Password),
                 CreatedAt = DateTime.UtcNow,
                 LastLoginAt = DateTime.UtcNow,
                 IsActive = true,
-                ProfilePicture = "../images/pf.png" 
+                ProfilePicture = "/images/pf.png"
             };
-            
+
+            user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
+
             return await _userRepository.CreateAsync(user);
-        }
-        
-        public async Task<bool> LogoutAsync()
-        {
-            // Implement logout logic if needed
-            return await Task.FromResult(true);
-        }
-        
-        public string HashPassword(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password + "SaltKey"));
-                return Convert.ToBase64String(hashedBytes);
-            }
-        }
-        
-        public bool VerifyPassword(string password, string hash)
-        {
-            return HashPassword(password) == hash;
         }
     }
 }
